@@ -104,10 +104,10 @@ export default function Dashboard() {
         <RecentPromptList prompts={prompts} />
       </div>
       
-      {/* Prompt Evaluation Section */}
+      {/* Prompt Evaluation Section - Positioned at the top as requested */}
       <div className="bg-white rounded-lg shadow p-6 mb-8">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold text-slate-900">Prompt Evaluation</h2>
+          <h2 className="text-xl font-semibold text-slate-900">Prompt Evaluation Studio</h2>
           <Link href="/prompt-evaluation" className="text-primary-600 hover:text-primary-800 text-sm font-medium flex items-center">
             Go to evaluation studio <i className="ri-arrow-right-line ml-1"></i>
           </Link>
@@ -147,6 +147,52 @@ export default function Dashboard() {
         </div>
         <Link href="/prompt-evaluation" className="mt-6 inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
           Evaluate a prompt
+        </Link>
+      </div>
+      
+      {/* Prompt Optimization Section - Added below evaluation section */}
+      <div className="bg-white rounded-lg shadow p-6 mb-8">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-semibold text-slate-900">Prompt Optimization Studio</h2>
+          <Link href="/prompt-optimization" className="text-primary-600 hover:text-primary-800 text-sm font-medium flex items-center">
+            Go to optimization studio <i className="ri-arrow-right-line ml-1"></i>
+          </Link>
+        </div>
+        <p className="text-slate-600 mb-4">
+          Transform your prompts with advanced controls for tone, style, and structure to maximize AI response quality.
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+          <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
+            <div className="flex items-center mb-2">
+              <i className="ri-palette-line text-purple-500 mr-2 text-lg"></i>
+              <h3 className="font-medium text-slate-900">Style Controls</h3>
+            </div>
+            <p className="text-slate-600 text-sm">Adjust tone, formality and creativity of your prompts</p>
+          </div>
+          <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
+            <div className="flex items-center mb-2">
+              <i className="ri-layout-row-line text-blue-500 mr-2 text-lg"></i>
+              <h3 className="font-medium text-slate-900">Structure Options</h3>
+            </div>
+            <p className="text-slate-600 text-sm">Format with markdown, headings, and organized layouts</p>
+          </div>
+          <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
+            <div className="flex items-center mb-2">
+              <i className="ri-user-settings-line text-green-500 mr-2 text-lg"></i>
+              <h3 className="font-medium text-slate-900">Audience Tuning</h3>
+            </div>
+            <p className="text-slate-600 text-sm">Target specific audiences from novice to expert</p>
+          </div>
+          <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
+            <div className="flex items-center mb-2">
+              <i className="ri-magic-line text-amber-500 mr-2 text-lg"></i>
+              <h3 className="font-medium text-slate-900">Magic Optimization</h3>
+            </div>
+            <p className="text-slate-600 text-sm">One-click improvements based on evaluation feedback</p>
+          </div>
+        </div>
+        <Link href="/prompt-optimization" className="mt-6 inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+          Optimize a prompt
         </Link>
       </div>
     </div>
