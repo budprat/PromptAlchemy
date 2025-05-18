@@ -11,6 +11,7 @@ import Dashboard from "@/pages/Dashboard";
 import PromptEvaluation from "@/pages/PromptEvaluation";
 import PromptOptimization from "@/pages/PromptOptimization";
 import PromptVault from "@/pages/PromptVault";
+import WhiteboardPage from "@/pages/WhiteboardPage";
 import NotFound from "@/pages/not-found";
 
 import MobileHeader from "@/components/layout/MobileHeader";
@@ -28,6 +29,7 @@ function Router() {
             <Route path="/prompt-evaluation" component={PromptEvaluation} />
             <Route path="/prompt-optimization" component={PromptOptimization} />
             <Route path="/vault" component={PromptVault} />
+            <Route path="/whiteboard" component={WhiteboardPage} />
             <Route component={NotFound} />
           </Switch>
         </div>

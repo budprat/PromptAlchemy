@@ -87,6 +87,13 @@ export default function Sidebar() {
         </div>
 
         <NavItem
+          href="/whiteboard"
+          icon="ri-artboard-2-line"
+          label="Brainstorm"
+          isActive={location === "/whiteboard"}
+        />
+        
+        <NavItem
           href="/collaborate"
           icon="ri-team-line"
           label="Collaborate"
