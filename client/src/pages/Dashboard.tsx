@@ -206,12 +206,11 @@ export default function Dashboard() {
         />
       </div>
 
-      {/* Recent Prompts + Performance Chart */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-        <PerformanceChart 
-          data={performanceData || defaultPerformanceData}
-          className="lg:col-span-2"
-        />
+      {/* Recent Prompts Section */}
+      <div className="bg-white rounded-lg shadow p-6 mb-8">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-semibold text-slate-900">Recent Prompts</h2>
+        </div>
         <RecentPromptList prompts={prompts} />
       </div>
     </div>
