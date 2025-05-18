@@ -5,12 +5,30 @@ import PerformanceChart from "@/components/dashboard/PerformanceChart";
 import RecentPromptList from "@/components/dashboard/RecentPromptList";
 import { Prompt } from "@shared/schema";
 
+// Define the types for our stats and performance data
+interface Stats {
+  username?: string;
+  totalPrompts?: number;
+  promptsChangePercent?: number;
+  averageScore?: number;
+  scoreChange?: number;
+  totalOptimizations?: number;
+  optimizationRate?: number;
+  teamMembers?: number;
+  newTeamMembers?: number;
+}
+
 export default function Dashboard() {
-  const { data: stats, isLoading: isLoadingStats } = useQuery({
+  const { data: stats, isLoading: isLoadingStats } = useQuery<Stats>({
     queryKey: ["/api/stats"],
   });
 
-  const { data: performanceData, isLoading: isLoadingPerformance } = useQuery({
+  const { data: performanceData, isLoading: isLoadingPerformance } = useQuery<{
+    clarity: number[];
+    aiFriendliness: number[];
+    specificity: number[];
+    labels: string[];
+  }>({
     queryKey: ["/api/performance"],
   });
 
@@ -123,7 +141,7 @@ export default function Dashboard() {
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-slate-900">Dashboard</h1>
         <p className="text-slate-500 mt-1">
-          {stats?.username 
+          {stats && stats.username 
             ? `Welcome back, ${stats.username}! Here's your prompt performance overview.`
             : "Welcome! Here's your prompt performance overview."}
         </p>
