@@ -62,17 +62,17 @@ export default function Sidebar() {
         />
 
         <NavItem
-          href="/evaluate"
+          href="/prompt-evaluation"
           icon="ri-magic-line"
           label="Evaluate Prompts"
-          isActive={location === "/evaluate"}
+          isActive={location === "/prompt-evaluation"}
         />
 
         <NavItem
-          href="/optimize"
+          href="/prompt-optimization"
           icon="ri-test-tube-line"
           label="Optimization Studio"
-          isActive={location === "/optimize"}
+          isActive={location === "/prompt-optimization"}
         />
 
         <NavItem

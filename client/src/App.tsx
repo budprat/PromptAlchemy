@@ -25,8 +25,8 @@ function Router() {
         <div className="px-4 py-6 md:px-8 max-w-7xl mx-auto">
           <Switch>
             <Route path="/" component={Dashboard} />
-            <Route path="/evaluate" component={PromptEvaluation} />
-            <Route path="/optimize" component={PromptOptimization} />
+            <Route path="/prompt-evaluation" component={PromptEvaluation} />
+            <Route path="/prompt-optimization" component={PromptOptimization} />
             <Route path="/vault" component={PromptVault} />
             <Route component={NotFound} />
           </Switch>

@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "wouter";
 import StatCard from "@/components/dashboard/StatCard";
 import PerformanceChart from "@/components/dashboard/PerformanceChart";
 import RecentPromptList from "@/components/dashboard/RecentPromptList";
@@ -107,9 +108,9 @@ export default function Dashboard() {
       <div className="bg-white rounded-lg shadow p-6 mb-8">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold text-slate-900">Prompt Evaluation</h2>
-          <a href="/prompt-evaluation" className="text-primary-600 hover:text-primary-800 text-sm font-medium flex items-center">
+          <Link href="/prompt-evaluation" className="text-primary-600 hover:text-primary-800 text-sm font-medium flex items-center">
             Go to evaluation studio <i className="ri-arrow-right-line ml-1"></i>
-          </a>
+          </Link>
         </div>
         <p className="text-slate-600 mb-4">
           Analyze your prompt's quality across multiple dimensions and get AI-powered feedback to improve effectiveness.
@@ -144,9 +145,9 @@ export default function Dashboard() {
             <p className="text-slate-600 text-sm">Assesses how well the AI can process your prompt</p>
           </div>
         </div>
-        <a href="/prompt-evaluation" className="mt-6 inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+        <Link href="/prompt-evaluation" className="mt-6 inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
           Evaluate a prompt
-        </a>
+        </Link>
       </div>
     </div>
   );
