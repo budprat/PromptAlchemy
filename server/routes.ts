@@ -5,6 +5,7 @@ import { z } from "zod";
 import { ZodError } from "zod";
 import { evaluate } from "./services/promptEvaluation";
 import { optimizePrompt } from "./services/openai";
+import { initializeWhiteboardService, getWhiteboardService } from "./services/whiteboard";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Authentication routes
@@ -273,5 +274,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   const httpServer = createServer(app);
+  
+  // Initialize whiteboard WebSocket service
+  initializeWhiteboardService(httpServer);
+  
+  // API endpoints for whiteboard sessions
+  app.get('/api/whiteboard/sessions', (req, res) => {
+    const whiteboardService = getWhiteboardService();
+    if (whiteboardService) {
+      res.json(whiteboardService.getSessions());
+    } else {
+      res.status(500).json({ error: 'Whiteboard service not initialized' });
+    }
+  });
+  
+  app.get('/api/whiteboard/sessions/:id', (req, res) => {
+    const whiteboardService = getWhiteboardService();
+    if (whiteboardService) {
+      const session = whiteboardService.getSession(req.params.id);
+      if (session) {
+        res.json(session);
+      } else {
+        res.status(404).json({ error: 'Session not found' });
+      }
+    } else {
+      res.status(500).json({ error: 'Whiteboard service not initialized' });
+    }
+  });
+  
+  app.post('/api/whiteboard/sessions', (req, res) => {
+    const whiteboardService = getWhiteboardService();
+    if (whiteboardService) {
+      const { name } = req.body;
+      if (!name) {
+        return res.status(400).json({ error: 'Session name is required' });
+      }
+      const session = whiteboardService.createSession(name);
+      res.status(201).json(session);
+    } else {
+      res.status(500).json({ error: 'Whiteboard service not initialized' });
+    }
+  });
+  
   return httpServer;
 }
