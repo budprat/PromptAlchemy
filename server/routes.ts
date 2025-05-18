@@ -204,9 +204,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
   const optimizationSchema = z.object({
     originalPrompt: z.string(),
     settings: z.object({
-      length: z.number().min(1).max(3),
-      tone: z.number().min(1).max(3),
-      specificity: z.number().min(1).max(3)
+      // Basic settings
+      length: z.number().min(1).max(4),
+      tone: z.number().min(1).max(4),
+      specificity: z.number().min(1).max(4),
+      
+      // Advanced settings
+      creativity: z.number().min(1).max(4).optional(),
+      audience: z.string().optional(),
+      formality: z.number().min(1).max(4).optional(),
+      purpose: z.string().optional(),
+      structure: z.string().optional(),
+      
+      // Enhancement toggles
+      enhanceClarity: z.boolean().optional(),
+      enhanceSpecificity: z.boolean().optional(),
+      enhanceFocus: z.boolean().optional(),
+      enhanceAiFriendliness: z.boolean().optional(),
+      
+      // Style preferences
+      style: z.object({
+        useMarkdown: z.boolean().optional(),
+        useBulletPoints: z.boolean().optional(),
+        useHeadings: z.boolean().optional(),
+        useExamples: z.boolean().optional(),
+        includeContext: z.boolean().optional()
+      }).optional()
     }),
     evaluationDetails: z.object({
       clarity: z.object({

@@ -55,9 +55,11 @@ export async function optimizePrompt(
     const toneLabel = getToneLabel(settings.tone);
     const specificityLabel = getSpecificityLabel(settings.specificity);
     
-    // Additional settings
-    const creativityLabel = getCreativityLabel(settings.creativity || 2);
-    const formalityLabel = getFormalityLabel(settings.formality || 2);
+    // Additional settings with defaults
+    let creativityVal = settings.creativity !== undefined ? settings.creativity : 2;
+    let formalityVal = settings.formality !== undefined ? settings.formality : 2;
+    const creativityLabel = getCreativityLabel(creativityVal);
+    const formalityLabel = getFormalityLabel(formalityVal);
     const audience = settings.audience || "general";
     const purpose = settings.purpose || "information";
     const structure = settings.structure || "narrative";
@@ -206,23 +208,77 @@ function mockOptimizePrompt(
   settings: OptimizationSettings,
   evaluationDetails: EvaluationDetails
 ) {
-  const improvements = [
-    "Added <span class='text-green-600 font-medium'>specific context</span> about the company's focus",
-    "Defined <span class='text-primary-600 font-medium'>tone and style</span> for responses",
-    "Included <span class='text-secondary-600 font-medium'>specific instructions</span> for response format",
-    "Added <span class='text-accent-600 font-medium'>fallback strategy</span> for incomplete information"
-  ];
+  // Generate improvements based on settings
+  const improvements = [];
+  
+  // Add basic improvements
+  improvements.push("Added <span class='text-green-600 font-medium'>specific context</span> about the topic/domain");
+  
+  if (settings.tone >= 3) {
+    improvements.push("Enhanced with <span class='text-primary-600 font-medium'>professional tone</span> for formal communication");
+  } else {
+    improvements.push("Adjusted to a <span class='text-primary-600 font-medium'>conversational tone</span> for better engagement");
+  }
+  
+  if (settings.specificity >= 3) {
+    improvements.push("Increased <span class='text-blue-600 font-medium'>specificity</span> with detailed parameters");
+  }
+  
+  if (settings.style?.useHeadings) {
+    improvements.push("Added <span class='text-secondary-600 font-medium'>clear section headings</span> for better organization");
+  }
+  
+  if (settings.style?.useBulletPoints) {
+    improvements.push("Included <span class='text-secondary-600 font-medium'>bullet points</span> for clearer instructions");
+  }
+  
+  if (settings.style?.useExamples) {
+    improvements.push("Added <span class='text-accent-600 font-medium'>concrete examples</span> to clarify expectations");
+  }
+  
+  // Cut down to max 5 improvements
+  const finalImprovements = improvements.slice(0, 5);
 
+  // Generate different optimized prompts based on settings
   let optimizedPrompt: string;
   
-  if (originalPrompt.includes("customer support")) {
-    optimizedPrompt = `<span class="text-green-600">You are a customer support agent for a software company that specializes in productivity tools.</span> <span class="text-primary-600">You should be helpful, concise, and friendly.</span> <span class="text-secondary-600">When users ask questions, try to provide step-by-step solutions when possible.</span> <span class="text-accent-600">If you need more information to solve their issue, politely ask clarifying questions.</span>`;
+  // Create structure based on settings
+  const headings = settings.style?.useHeadings ? "# " : "";
+  const bullets = settings.style?.useBulletPoints ? "- " : "";
+  const markdown = settings.style?.useMarkdown;
+  
+  // Get tone based on settings
+  const tone = getToneLabel(settings.tone).toLowerCase();
+  const length = getLengthLabel(settings.length).toLowerCase();
+  const creativeLevel = settings.creativity && settings.creativity >= 3 ? "creative" : "straightforward";
+  
+  if (originalPrompt.toLowerCase().includes("customer support")) {
+    optimizedPrompt = `${headings}<span class="text-green-600">You are a customer support agent for a software company that specializes in productivity tools.</span> <span class="text-primary-600">You should be ${tone}, ${length}, and helpful in your responses.</span>\n\n${headings}<span class="text-secondary-600">When responding to customers:</span>\n${bullets}<span class="text-secondary-600">Provide step-by-step solutions whenever possible</span>\n${bullets}<span class="text-secondary-600">Use ${creativeLevel} analogies to explain technical concepts</span>\n${bullets}<span class="text-secondary-600">Format key information in an easy-to-read manner</span>\n\n<span class="text-accent-600">If you need more information to solve their issue, politely ask clarifying questions.</span>`;
+  } else if (originalPrompt.toLowerCase().includes("data") || originalPrompt.toLowerCase().includes("analysis")) {
+    optimizedPrompt = `${headings}<span class="text-green-600">You are a data analysis expert specializing in interpreting complex datasets and creating insightful visualizations.</span> <span class="text-primary-600">Maintain a ${tone} tone and provide ${length} explanations.</span>\n\n${headings}<span class="text-secondary-600">When analyzing data:</span>\n${bullets}<span class="text-secondary-600">Always identify key patterns and outliers</span>\n${bullets}<span class="text-secondary-600">Provide statistical context for findings</span>\n${bullets}<span class="text-secondary-600">Suggest appropriate visualization types</span>\n\n<span class="text-accent-600">If data seems incomplete or potentially misleading, highlight limitations before proceeding with analysis.</span>`;
   } else {
-    optimizedPrompt = `<span class="text-green-600">You are an expert assistant specialized in ${originalPrompt.split(' ').slice(3, 6).join(' ')}.</span> <span class="text-primary-600">Maintain a ${getToneLabel(settings.tone).toLowerCase()} tone and be ${settings.specificity >= 2 ? 'detailed' : 'concise'} in your responses.</span> <span class="text-secondary-600">Structure your responses with clear headings and bullet points when appropriate.</span> <span class="text-accent-600">If the user's request is ambiguous, ask for clarification before proceeding.</span>`;
+    optimizedPrompt = `${headings}<span class="text-green-600">You are an expert assistant specialized in ${originalPrompt.split(' ').slice(0, 3).join(' ')}.</span> <span class="text-primary-600">Maintain a ${tone} tone and provide ${length} responses that are ${creativeLevel} in nature.</span>\n\n${headings}<span class="text-secondary-600">When responding:</span>\n${bullets}<span class="text-secondary-600">Structure information logically with clear progression</span>\n${bullets}<span class="text-secondary-600">Prioritize accuracy and reliability of information</span>\n${bullets}<span class="text-secondary-600">Use appropriate terminology for ${settings.audience || 'general'} audience</span>\n\n<span class="text-accent-600">If a request is ambiguous, ask clarifying questions before providing a complete response.</span>`;
+  }
+  
+  // Add examples if requested
+  if (settings.style?.useExamples) {
+    optimizedPrompt += `\n\n${headings}<span class="text-blue-600">Example format:</span>\n\`\`\`\nQuestion: [User question]\nThinking: [Your analysis process - not shown to user]\nResponse: [Your structured response following the guidelines above]\n\`\`\``;
   }
   
   // Calculate predicted score based on settings and original scores
-  const baseImprovement = 1.5;
+  let baseImprovement = 1.5;
+  
+  // More advanced settings give better improvements
+  if (settings.style?.useMarkdown) baseImprovement += 0.2;
+  if (settings.style?.useHeadings) baseImprovement += 0.3;
+  if (settings.style?.useBulletPoints) baseImprovement += 0.2;
+  if (settings.style?.useExamples) baseImprovement += 0.4;
+  if (settings.enhanceClarity) baseImprovement += 0.3;
+  if (settings.enhanceSpecificity) baseImprovement += 0.3;
+  if (settings.enhanceFocus) baseImprovement += 0.2;
+  if (settings.enhanceAiFriendliness) baseImprovement += 0.3;
+  
+  // Basic settings multiplier
   const settingsMultiplier = (settings.specificity + settings.length) / 4; // 0.5 to 1.5
   const scoreImprovement = baseImprovement * settingsMultiplier;
   
@@ -246,7 +302,7 @@ function mockOptimizePrompt(
   
   return {
     optimizedPrompt,
-    improvements,
+    improvements: finalImprovements,
     score: Number(predictedScore.toFixed(1))
   };
 }
