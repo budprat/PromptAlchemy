@@ -91,7 +91,53 @@ export default function Dashboard() {
         </Link>
       </div>
       
-      {/* Prompt Optimization Section - Below evaluation section */}
+      {/* Collaborative Brainstorming Section - Added to main dashboard */}
+      <div className="bg-white rounded-lg shadow p-6 mb-8">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-semibold text-slate-900">Collaborative Prompt Brainstorming</h2>
+          <Link href="/whiteboard" className="text-primary-600 hover:text-primary-800 text-sm font-medium flex items-center">
+            View full whiteboard <i className="ri-arrow-right-line ml-1"></i>
+          </Link>
+        </div>
+        <p className="text-slate-600 mb-4">
+          Brainstorm and refine prompt ideas in real-time with your team. Create connections between concepts and vote on the best ideas.
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+          <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
+            <div className="flex items-center mb-2">
+              <i className="ri-artboard-2-line text-purple-500 mr-2 text-lg"></i>
+              <h3 className="font-medium text-slate-900">Visual Mapping</h3>
+            </div>
+            <p className="text-slate-600 text-sm">Map connections between prompt concepts visually</p>
+          </div>
+          <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
+            <div className="flex items-center mb-2">
+              <i className="ri-team-line text-blue-500 mr-2 text-lg"></i>
+              <h3 className="font-medium text-slate-900">Team Collaboration</h3>
+            </div>
+            <p className="text-slate-600 text-sm">Work together in real-time with your entire team</p>
+          </div>
+          <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
+            <div className="flex items-center mb-2">
+              <i className="ri-thumbs-up-line text-green-500 mr-2 text-lg"></i>
+              <h3 className="font-medium text-slate-900">Idea Voting</h3>
+            </div>
+            <p className="text-slate-600 text-sm">Vote on the most promising prompt concepts</p>
+          </div>
+          <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
+            <div className="flex items-center mb-2">
+              <i className="ri-flow-chart text-amber-500 mr-2 text-lg"></i>
+              <h3 className="font-medium text-slate-900">Concept Connections</h3>
+            </div>
+            <p className="text-slate-600 text-sm">Link related ideas to create structured prompts</p>
+          </div>
+        </div>
+        <Link href="/whiteboard" className="mt-6 inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+          Start brainstorming
+        </Link>
+      </div>
+
+      {/* Prompt Optimization Section - Below brainstorming section */}
       <div className="bg-white rounded-lg shadow p-6 mb-8">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold text-slate-900">Prompt Optimization Studio</h2>
