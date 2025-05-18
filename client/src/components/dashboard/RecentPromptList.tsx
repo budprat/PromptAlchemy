@@ -13,10 +13,8 @@ export default function RecentPromptList({ prompts, className }: RecentPromptLis
     <div className={`bg-white rounded-lg border border-slate-200 p-4 shadow-sm ${className || ""}`}>
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-medium text-slate-900">Recent Prompts</h2>
-        <Link href="/vault">
-          <a className="text-sm text-primary-600 hover:text-primary-700 font-medium">
-            View all
-          </a>
+        <Link href="/vault" className="text-sm text-primary-600 hover:text-primary-700 font-medium">
+          View all
         </Link>
       </div>
       
