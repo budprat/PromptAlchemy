@@ -1033,17 +1033,55 @@ ${getImprovementAreas().map(area => `- **${area.area}**: ${area.suggestion}`).jo
       </div>
 
       <Dialog open={isShareDialogOpen} onOpenChange={setIsShareDialogOpen}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Share Evaluation Results</DialogTitle>
+            <DialogTitle className="flex items-center gap-2">
+              <div className="bg-primary-50 p-1.5 rounded text-primary-600">
+                <i className="ri-share-line"></i>
+              </div>
+              Share Evaluation Results
+            </DialogTitle>
           </DialogHeader>
-          <div className="space-y-4 py-4">
-            <p className="text-sm text-slate-600">
-              Share your evaluation results with your team members:
-            </p>
+          
+          <div className="p-4 space-y-6">
+            <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-md bg-white shadow-sm flex items-center justify-center">
+                  <i className="ri-file-chart-line text-lg text-primary-600"></i>
+                </div>
+                <div>
+                  <h4 className="font-medium text-slate-900">{title}</h4>
+                  <p className="text-xs text-slate-500">
+                    Overall Score: {overallScore.toFixed(1)}/10 • Evaluated with {modelId}
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex items-center justify-between py-2 px-3 bg-white rounded border border-slate-200">
+                <span className="text-sm text-slate-600 truncate max-w-[220px]">
+                  {window.location.origin}/prompt-evaluation/share?id={encodeURIComponent(title)}
+                </span>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 w-8 p-0"
+                  onClick={() => {
+                    const url = `${window.location.origin}/prompt-evaluation/share?id=${encodeURIComponent(title)}`;
+                    navigator.clipboard.writeText(url);
+                    toast({
+                      title: "Link copied",
+                      description: "Shareable link has been copied to clipboard."
+                    });
+                  }}
+                >
+                  <i className="ri-file-copy-line text-slate-500 hover:text-slate-700"></i>
+                </Button>
+              </div>
+            </div>
             
-            <div className="flex flex-col space-y-3">
+            <div className="grid grid-cols-2 gap-3">
               <Button
+                variant="outline"
                 onClick={() => {
                   const url = `${window.location.origin}/prompt-evaluation/share?id=${encodeURIComponent(title)}`;
                   navigator.clipboard.writeText(url);
@@ -1051,25 +1089,48 @@ ${getImprovementAreas().map(area => `- **${area.area}**: ${area.suggestion}`).jo
                     title: "Link copied",
                     description: "Shareable link has been copied to clipboard."
                   });
+                  setIsShareDialogOpen(false);
                 }}
                 className="flex items-center justify-center"
               >
                 <i className="ri-link mr-1.5"></i>
-                Copy Shareable Link
+                Copy Link
               </Button>
               
               <Button
                 variant="outline"
                 onClick={() => {
                   const emailSubject = `Prompt Evaluation: ${title}`;
-                  const emailBody = `Check out my prompt evaluation:\n\nTitle: ${title}\nOverall Score: ${overallScore.toFixed(1)}/10\n\nView the full results here: ${window.location.origin}/prompt-evaluation`;
+                  const emailBody = `Check out this prompt evaluation:\n\nTitle: ${title}\nOverall Score: ${overallScore.toFixed(1)}/10\nAssessment: ${getOverallAssessment()}\n\nView the full results here: ${window.location.origin}/prompt-evaluation/share?id=${encodeURIComponent(title)}`;
                   window.location.href = `mailto:?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
                 }}
                 className="flex items-center justify-center"
               >
                 <i className="ri-mail-line mr-1.5"></i>
-                Share via Email
+                Email
               </Button>
+            </div>
+            
+            <div className="border-t border-slate-200 pt-3">
+              <h4 className="text-sm font-medium text-slate-900 mb-3">Share via</h4>
+              <div className="grid grid-cols-4 gap-2">
+                <Button variant="ghost" size="sm" className="h-10 flex flex-col items-center justify-center gap-1">
+                  <i className="ri-twitter-x-line text-lg"></i>
+                  <span className="text-xs">Twitter</span>
+                </Button>
+                <Button variant="ghost" size="sm" className="h-10 flex flex-col items-center justify-center gap-1">
+                  <i className="ri-linkedin-line text-lg"></i>
+                  <span className="text-xs">LinkedIn</span>
+                </Button>
+                <Button variant="ghost" size="sm" className="h-10 flex flex-col items-center justify-center gap-1">
+                  <i className="ri-slack-line text-lg"></i>
+                  <span className="text-xs">Slack</span>
+                </Button>
+                <Button variant="ghost" size="sm" className="h-10 flex flex-col items-center justify-center gap-1">
+                  <i className="ri-more-line text-lg"></i>
+                  <span className="text-xs">More</span>
+                </Button>
+              </div>
             </div>
           </div>
         </DialogContent>
