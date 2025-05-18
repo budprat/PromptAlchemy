@@ -184,8 +184,16 @@ export default function EvaluationResult({
     return suggestions;
   };
 
-  // Create exportable JSON
+  // Create exportable JSON with comprehensive data
   const getExportData = () => {
+    // Include detailed analysis data
+    const analysisData = {
+      assessment: getOverallAssessment(),
+      strengths: getStrengths(),
+      improvementAreas: getImprovementAreas(),
+      exampleImprovements: getPromptImprovementExamples()
+    };
+    
     return {
       title,
       content,
@@ -197,11 +205,23 @@ export default function EvaluationResult({
         focus,
         aiFriendliness
       },
+      analysis: analysisData,
+      framework: {
+        name: "COPSTA",
+        elements: [
+          { key: "Context", description: "Background information" },
+          { key: "Objective", description: "Clear goal statement" },
+          { key: "Parameters", description: "Specific requirements" },
+          { key: "Structure", description: "Format specification" },
+          { key: "Tone", description: "Voice and style" },
+          { key: "Audience", description: "Target audience" }
+        ]
+      },
       exportedAt: new Date().toISOString()
     };
   };
 
-  // Export as JSON file
+  // Export as JSON file with animation
   const handleExportJSON = () => {
     const exportData = getExportData();
     const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: "application/json" });
@@ -218,12 +238,13 @@ export default function EvaluationResult({
     URL.revokeObjectURL(url);
     
     toast({
-      title: "Export successful",
-      description: "Evaluation results have been exported as JSON."
+      title: "Comprehensive Export Complete",
+      description: "Full evaluation with detailed analysis has been exported.",
+      variant: "default"
     });
   };
 
-  // Copy to clipboard as markdown
+  // Copy to clipboard as comprehensive markdown
   const handleCopyAsMarkdown = () => {
     const exportData = getExportData();
     const markdown = `
@@ -234,13 +255,30 @@ export default function EvaluationResult({
 ${content}
 \`\`\`
 
-## Evaluation Results
+## Evaluation Summary
 - **Overall Score**: ${overallScore.toFixed(1)}/10
 - **Model**: ${modelId}
-${clarity ? `- **Clarity**: ${clarity.score.toFixed(1)}/10 - ${clarity.feedback}` : ''}
-${specificity ? `- **Specificity**: ${specificity.score.toFixed(1)}/10 - ${specificity.feedback}` : ''}
-${focus ? `- **Focus**: ${focus.score.toFixed(1)}/10 - ${focus.feedback}` : ''}
-${aiFriendliness ? `- **AI-Friendliness**: ${aiFriendliness.score.toFixed(1)}/10 - ${aiFriendliness.feedback}` : ''}
+- **Assessment**: ${getOverallAssessment()}
+
+## Detailed Metrics
+${clarity ? `### Clarity: ${clarity.score.toFixed(1)}/10\n${clarity.feedback}\n` : ''}
+${specificity ? `### Specificity: ${specificity.score.toFixed(1)}/10\n${specificity.feedback}\n` : ''}
+${focus ? `### Focus: ${focus.score.toFixed(1)}/10\n${focus.feedback}\n` : ''}
+${aiFriendliness ? `### AI-Friendliness: ${aiFriendliness.score.toFixed(1)}/10\n${aiFriendliness.feedback}\n` : ''}
+
+## Key Strengths
+${getStrengths().map(strength => `- ${strength}`).join('\n')}
+
+## Areas for Improvement
+${getImprovementAreas().map(area => `- **${area.area}**: ${area.suggestion}`).join('\n')}
+
+## COPSTA Prompt Framework
+- **C**ontext: Begin with relevant background information
+- **O**bjective: Clearly state what you want to achieve
+- **P**arameters: Define specific requirements and constraints
+- **S**tructure: Indicate how you want the information presented
+- **T**one: Specify the voice and style for the response
+- **A**udience: Define who the response should be tailored for
 
 *Evaluated on ${new Date().toLocaleDateString()} using PromptAlchemy*
     `;
@@ -248,8 +286,9 @@ ${aiFriendliness ? `- **AI-Friendliness**: ${aiFriendliness.score.toFixed(1)}/10
     navigator.clipboard.writeText(markdown);
     
     toast({
-      title: "Copied to clipboard",
-      description: "Evaluation results have been copied as markdown format."
+      title: "Copied to Clipboard",
+      description: "Comprehensive evaluation has been copied in markdown format.",
+      variant: "default"
     });
   };
 
