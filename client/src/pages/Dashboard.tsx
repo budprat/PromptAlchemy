@@ -102,6 +102,52 @@ export default function Dashboard() {
         />
         <RecentPromptList prompts={prompts} />
       </div>
+      
+      {/* Prompt Evaluation Section */}
+      <div className="bg-white rounded-lg shadow p-6 mb-8">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-semibold text-slate-900">Prompt Evaluation</h2>
+          <a href="/prompt-evaluation" className="text-primary-600 hover:text-primary-800 text-sm font-medium flex items-center">
+            Go to evaluation studio <i className="ri-arrow-right-line ml-1"></i>
+          </a>
+        </div>
+        <p className="text-slate-600 mb-4">
+          Analyze your prompt's quality across multiple dimensions and get AI-powered feedback to improve effectiveness.
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+          <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
+            <div className="flex items-center mb-2">
+              <i className="ri-lightbulb-line text-yellow-500 mr-2 text-lg"></i>
+              <h3 className="font-medium text-slate-900">Clarity</h3>
+            </div>
+            <p className="text-slate-600 text-sm">Measures how clear and unambiguous your prompt is</p>
+          </div>
+          <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
+            <div className="flex items-center mb-2">
+              <i className="ri-focus-3-line text-blue-500 mr-2 text-lg"></i>
+              <h3 className="font-medium text-slate-900">Specificity</h3>
+            </div>
+            <p className="text-slate-600 text-sm">Evaluates the level of detail and context provided</p>
+          </div>
+          <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
+            <div className="flex items-center mb-2">
+              <i className="ri-target-line text-red-500 mr-2 text-lg"></i>
+              <h3 className="font-medium text-slate-900">Focus</h3>
+            </div>
+            <p className="text-slate-600 text-sm">Checks if your prompt stays on topic without tangents</p>
+          </div>
+          <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
+            <div className="flex items-center mb-2">
+              <i className="ri-robot-line text-green-500 mr-2 text-lg"></i>
+              <h3 className="font-medium text-slate-900">AI Friendliness</h3>
+            </div>
+            <p className="text-slate-600 text-sm">Assesses how well the AI can process your prompt</p>
+          </div>
+        </div>
+        <a href="/prompt-evaluation" className="mt-6 inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+          Evaluate a prompt
+        </a>
+      </div>
     </div>
   );
 }

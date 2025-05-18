@@ -11,18 +11,16 @@ type NavItemProps = {
 };
 
 const NavItem = ({ href, icon, label, isActive }: NavItemProps) => (
-  <Link href={href}>
-    <a
-      className={cn(
-        "flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors",
-        isActive
-          ? "bg-primary-50 text-primary-700"
-          : "text-slate-700 hover:bg-slate-100"
-      )}
-    >
-      <i className={`${icon} mr-2 text-lg`}></i>
-      <span>{label}</span>
-    </a>
+  <Link href={href} 
+    className={cn(
+      "flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors",
+      isActive
+        ? "bg-primary-50 text-primary-700" 
+        : "text-slate-700 hover:bg-slate-100"
+    )}
+  >
+    <i className={`${icon} mr-2 text-lg`}></i>
+    <span>{label}</span>
   </Link>
 );
 
