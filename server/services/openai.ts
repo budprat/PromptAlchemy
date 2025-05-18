@@ -4,9 +4,32 @@ import OpenAI from "openai";
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY || "mock-key-for-development" });
 
 type OptimizationSettings = {
+  // Basic settings
   length: number;
   tone: number;
   specificity: number;
+  
+  // Advanced settings
+  creativity?: number;
+  audience?: string;
+  formality?: number;
+  purpose?: string;
+  structure?: string;
+  
+  // Enhancement toggles
+  enhanceClarity?: boolean;
+  enhanceSpecificity?: boolean;
+  enhanceFocus?: boolean;
+  enhanceAiFriendliness?: boolean;
+  
+  // Style preferences
+  style?: {
+    useMarkdown?: boolean;
+    useBulletPoints?: boolean;
+    useHeadings?: boolean;
+    useExamples?: boolean;
+    includeContext?: boolean;
+  };
 };
 
 type EvaluationDetails = {
@@ -27,12 +50,36 @@ export async function optimizePrompt(
   }
 
   try {
+    // Get labels for various settings
     const lengthLabel = getLengthLabel(settings.length);
     const toneLabel = getToneLabel(settings.tone);
     const specificityLabel = getSpecificityLabel(settings.specificity);
+    
+    // Additional settings
+    const creativityLabel = getCreativityLabel(settings.creativity || 2);
+    const formalityLabel = getFormalityLabel(settings.formality || 2);
+    const audience = settings.audience || "general";
+    const purpose = settings.purpose || "information";
+    const structure = settings.structure || "narrative";
+    
+    // Enhancement targets
+    const enhancementTargets = [];
+    if (settings.enhanceClarity) enhancementTargets.push("clarity");
+    if (settings.enhanceSpecificity) enhancementTargets.push("specificity");
+    if (settings.enhanceFocus) enhancementTargets.push("focus");
+    if (settings.enhanceAiFriendliness) enhancementTargets.push("AI-friendliness");
+    
+    // Style preferences
+    const style = settings.style || {
+      useMarkdown: true,
+      useBulletPoints: true,
+      useHeadings: true,
+      useExamples: false,
+      includeContext: true
+    };
 
     const prompt = `
-      You are PromptAlchemy, a specialized AI prompt optimization assistant. I'll provide you with an original prompt along with its evaluation scores and your task is to create an improved version.
+      You are PromptAlchemy, a specialized AI prompt optimization assistant. I'll provide you with an original prompt along with its evaluation scores, optimization settings, and your task is to create an improved version.
 
       Original Prompt:
       """
@@ -45,13 +92,29 @@ export async function optimizePrompt(
       - Focus: ${evaluationDetails.focus.score}/10 - ${evaluationDetails.focus.feedback}
       - AI-Friendliness: ${evaluationDetails.aiFriendliness.score}/10 - ${evaluationDetails.aiFriendliness.feedback}
 
-      Optimization Settings:
+      Basic Optimization Settings:
       - Length: ${lengthLabel}
       - Tone: ${toneLabel}
       - Specificity: ${specificityLabel}
+      
+      Advanced Optimization Settings:
+      - Creativity: ${creativityLabel}
+      - Formality: ${formalityLabel}
+      - Target Audience: ${audience}
+      - Purpose: ${purpose}
+      - Structure: ${structure}
+      
+      Style Preferences:
+      - Use Markdown: ${style.useMarkdown ? "Yes" : "No"}
+      - Use Bullet Points: ${style.useBulletPoints ? "Yes" : "No"}
+      - Use Headings: ${style.useHeadings ? "Yes" : "No"}
+      - Include Examples: ${style.useExamples ? "Yes" : "No"}
+      - Include Context: ${style.includeContext ? "Yes" : "No"}
+      
+      Enhancement Focus: ${enhancementTargets.length > 0 ? enhancementTargets.join(", ") : "All areas"}
 
       I need you to:
-      1. Create an optimized version of the prompt that addresses the evaluation feedback
+      1. Create an optimized version of the prompt that addresses the evaluation feedback and follows all the settings above
       2. Format the response with HTML color spans to highlight different improvements:
          - Use <span class="text-green-600">text</span> for context improvements
          - Use <span class="text-primary-600">text</span> for tone and style improvements
@@ -92,6 +155,7 @@ function getLengthLabel(value: number): string {
     case 1: return "Concise";
     case 2: return "Medium";
     case 3: return "Detailed";
+    case 4: return "Comprehensive";
     default: return "Medium";
   }
 }
@@ -99,18 +163,40 @@ function getLengthLabel(value: number): string {
 function getToneLabel(value: number): string {
   switch (value) {
     case 1: return "Casual";
-    case 2: return "Professional";
-    case 3: return "Formal";
-    default: return "Professional";
+    case 2: return "Neutral";
+    case 3: return "Professional";
+    case 4: return "Formal";
+    default: return "Neutral";
   }
 }
 
 function getSpecificityLabel(value: number): string {
   switch (value) {
-    case 1: return "Low";
-    case 2: return "Medium";
-    case 3: return "High";
-    default: return "Medium";
+    case 1: return "General";
+    case 2: return "Somewhat Specific";
+    case 3: return "Detailed";
+    case 4: return "Highly Detailed";
+    default: return "Detailed";
+  }
+}
+
+function getCreativityLabel(value: number): string {
+  switch (value) {
+    case 1: return "Conservative";
+    case 2: return "Balanced";
+    case 3: return "Creative";
+    case 4: return "Highly Creative";
+    default: return "Balanced";
+  }
+}
+
+function getFormalityLabel(value: number): string {
+  switch (value) {
+    case 1: return "Informal";
+    case 2: return "Conversational";
+    case 3: return "Business";
+    case 4: return "Academic";
+    default: return "Conversational";
   }
 }
 

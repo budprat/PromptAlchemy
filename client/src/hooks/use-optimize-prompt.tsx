@@ -4,9 +4,32 @@ import { apiRequest } from "@/lib/queryClient";
 type OptimizePromptParams = {
   originalPrompt: string;
   settings: {
+    // Basic settings
     length: number;
     tone: number;
     specificity: number;
+    
+    // Advanced settings
+    creativity?: number;
+    audience?: string;
+    formality?: number;
+    purpose?: string;
+    structure?: string;
+    
+    // Enhancement toggles
+    enhanceClarity?: boolean;
+    enhanceSpecificity?: boolean;
+    enhanceFocus?: boolean;
+    enhanceAiFriendliness?: boolean;
+    
+    // Style preferences
+    style?: {
+      useMarkdown?: boolean;
+      useBulletPoints?: boolean;
+      useHeadings?: boolean;
+      useExamples?: boolean;
+      includeContext?: boolean;
+    };
   };
   evaluationDetails: {
     clarity: { score: number; feedback: string };
