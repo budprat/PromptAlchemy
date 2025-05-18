@@ -6,7 +6,8 @@ import { useToast } from "@/hooks/use-toast";
 import { 
   useWhiteboardConnection,
   type WhiteboardUser,
-  type SessionInfo
+  type SessionInfo,
+  type IdeaNode
 } from "@/hooks/use-whiteboard-connection";
 import {
   Dialog,
@@ -347,7 +348,7 @@ export default function WhiteboardPage() {
             session={session}
             status={status}
             onSendCursorPosition={sendCursorPosition}
-            onAddIdea={(idea) => addIdea(idea)}
+            onAddIdea={(idea: Omit<IdeaNode, "id" | "createdAt" | "isSelected">) => addIdea(idea)}
             onDeleteIdea={deleteIdea}
             onUpdateIdea={updateIdea}
             onAddConnection={addConnection}
