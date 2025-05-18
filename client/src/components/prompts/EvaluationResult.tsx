@@ -132,6 +132,12 @@ export default function EvaluationResult({
     return improvements.length > 0 ? improvements : [{ area: "General", suggestion: "Your prompt is already strong in all key areas" }];
   };
   
+  // Safely access first element with a null check
+  const getSafeAreaType = () => {
+    const areas = getImprovementAreas();
+    return areas && areas.length > 0 ? areas[0].area : "General";
+  };
+  
   const getPromptImprovementExamples = () => {
     let suggestions = [];
     
@@ -531,31 +537,31 @@ ${aiFriendliness ? `- **AI-Friendliness**: ${aiFriendliness.score.toFixed(1)}/10
                 </div>
                 
                 <div className={`${
-                  getImprovementAreas()[0].area === "General" ? 
+                  getSafeAreaType() === "General" ? 
                   "bg-slate-50 border-slate-200" : 
                   "bg-amber-50 border-amber-100"
                 } rounded-xl p-5 border`}>
                   <div className="flex items-center gap-2 mb-3">
                     <div className="bg-white p-1.5 rounded">
                       <i className={`${
-                        getImprovementAreas()[0].area === "General" ? 
+                        getSafeAreaType() === "General" ? 
                         "ri-lightbulb-line text-slate-600" : 
                         "ri-error-warning-line text-amber-600"
                       }`}></i>
                     </div>
                     <h4 className={`font-semibold ${
-                      getImprovementAreas()[0].area === "General" ? 
+                      getSafeAreaType() === "General" ? 
                       "text-slate-800" : 
                       "text-amber-800"
                     }`}>
-                      {getImprovementAreas()[0].area === "General" ? 
+                      {getSafeAreaType() === "General" ? 
                         "Already Optimized" : 
                         "Areas for Improvement"}
                     </h4>
                   </div>
                   
-                  {getImprovementAreas()[0].area === "General" ? (
-                    <p className="text-sm text-slate-700">{getImprovementAreas()[0].suggestion}</p>
+                  {getSafeAreaType() === "General" ? (
+                    <p className="text-sm text-slate-700">{getImprovementAreas()[0]?.suggestion || "Your prompt is already strong in all key areas"}</p>
                   ) : (
                     <ul className="space-y-3">
                       {getImprovementAreas().map((item, idx) => (
@@ -771,26 +777,26 @@ ${aiFriendliness ? `- **AI-Friendliness**: ${aiFriendliness.score.toFixed(1)}/10
               </div>
             </div>
 
-            {getPromptImprovementExamples().length > 0 ? (
+            {getPromptImprovementExamples() && getPromptImprovementExamples().length > 0 ? (
               <div className="space-y-8">
                 {getPromptImprovementExamples().map((example, idx) => (
                   <div key={idx} className="group">
                     <div className="bg-gradient-to-r from-slate-50 to-slate-100 rounded-xl p-4 mb-2 flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                          example.type === "Clarity" ? "bg-yellow-100 text-yellow-700" :
-                          example.type === "Specificity" ? "bg-blue-100 text-blue-700" :
-                          example.type === "Focus" ? "bg-red-100 text-red-700" :
+                          example?.type === "Clarity" ? "bg-yellow-100 text-yellow-700" :
+                          example?.type === "Specificity" ? "bg-blue-100 text-blue-700" :
+                          example?.type === "Focus" ? "bg-red-100 text-red-700" :
                           "bg-green-100 text-green-700"
                         }`}>
                           <i className={`${
-                            example.type === "Clarity" ? "ri-lightbulb-line" :
-                            example.type === "Specificity" ? "ri-focus-3-line" :
-                            example.type === "Focus" ? "ri-target-line" :
+                            example?.type === "Clarity" ? "ri-lightbulb-line" :
+                            example?.type === "Specificity" ? "ri-focus-3-line" :
+                            example?.type === "Focus" ? "ri-target-line" :
                             "ri-robot-line"
                           } text-lg`}></i>
                         </div>
-                        <h4 className="font-semibold text-slate-900">{example.type} Improvement Example</h4>
+                        <h4 className="font-semibold text-slate-900">{example?.type || "General"} Improvement Example</h4>
                       </div>
                       <div className="text-xs px-2 py-1 rounded-full bg-white border border-slate-200 font-medium text-slate-600">
                         Before → After
