@@ -1,0 +1,21 @@
+I need you to design the PromptAlchemy web application - a professional tool with creative energy that revolutionizes how teams create, test, and share AI prompts.
+
+The application should solve key challenges in prompt engineering: inconsistent results, lack of insight into effectiveness, difficulty sharing knowledge across teams, time wasted on manual iterations, and scaling challenges.
+
+Core functionality must include:
+
+1. A comprehensive prompt evaluation system that scores prompts on multiple dimensions (clarity, specificity, focus, AI-friendliness), provides constructive feedback, enables side-by-side comparison of variations, and tests across multiple LLM models.
+
+2. An optimization studio that generates smart rewrites with adjustable style, tone, and length controls, predicts performance improvements, and provides templates for common use cases.
+
+3. A collaborative vault for storing, searching, and sharing prompts with version history, analytics, bulk processing, and API integration with productivity tools.
+
+The application should have a React/Next.js frontend with TailwindCSS styling, FastAPI backend, PostgreSQL database with Redis caching, and integration with major LLM providers (OpenAI, Anthropic, xAI, Mistral).
+
+The user experience should be intuitive yet engaging, with a high-contrast color scheme, subtle animations, and a responsive design that works across devices. The interface should avoid corporate blandness while maintaining professional functionality.
+
+Success metrics include fast response times (under 2s for evaluations), high accuracy (90%+ in suggestions), significant reduction in prompt iteration time, and strong team adoption rates.
+
+The brand voice should be knowledgeable but approachable, technically precise but accessible, with occasional humor that makes the complex process of prompt engineering both effective and enjoyable.
+
+Design this application with an implementation plan that starts with core evaluation features before expanding to collaboration tools and advanced capabilities.
